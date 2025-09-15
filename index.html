@@ -13,13 +13,13 @@
       background-color: navy;
       overflow: hidden;
     }#balloon {
-  width: 120px;
-  height: 160px;
+  width: 140px;
+  height: 180px;
   background: radial-gradient(circle at 30% 30%, pink, #ff4d6d);
-  border-radius: 60% 60% 60% 60% / 70% 70% 30% 30%;
+  border-radius: 50% 50% 50% 50%;
   position: relative;
-  animation: float 3s ease-in-out infinite;
   cursor: pointer;
+  animation: rise 2s ease-out forwards;
 }
 
 #balloon::after {
@@ -33,9 +33,9 @@
   transform: translateX(-50%);
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-15px) rotate(2deg); }
+@keyframes rise {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(0); }
 }
 
 #message {
@@ -55,14 +55,15 @@
 
 .confetti {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 4px;
+  height: 20px;
   background-color: pink;
-  opacity: 0.8;
-  animation: fall linear forwards;
+  opacity: 0.9;
+  animation: fall linear infinite;
 }
 
 @keyframes fall {
+  from { transform: translateY(-10px) rotate(0deg); }
   to { transform: translateY(100vh) rotate(360deg); }
 }
 
@@ -77,25 +78,26 @@
     const message = document.getElementById('message');
     const popSound = document.getElementById('popSound');
 
+    let confettiInterval;
+
     balloon.addEventListener('click', () => {
       popSound.play();
       balloon.style.display = 'none';
       message.style.display = 'block';
-      launchConfetti();
+      startConfetti();
     });
 
-    function launchConfetti() {
-      for (let i = 0; i < 80; i++) {
+    function startConfetti() {
+      confettiInterval = setInterval(() => {
         const confetti = document.createElement('div');
         confetti.classList.add('confetti');
         confetti.style.left = Math.random() * window.innerWidth + 'px';
-        confetti.style.top = '-10px';
         confetti.style.backgroundColor = ["pink", "white", "#fce1d2"][Math.floor(Math.random()*3)];
-        confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+        confetti.style.animationDuration = (4 + Math.random() * 3) + 's';
         document.body.appendChild(confetti);
 
-        setTimeout(() => confetti.remove(), 5000);
-      }
+        setTimeout(() => confetti.remove(), 7000);
+      }, 200);
     }
   </script></body>
 </html>
