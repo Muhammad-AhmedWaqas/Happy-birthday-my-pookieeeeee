@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Surprise</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: navy;
+      overflow: hidden;
+    }#balloon {
+  width: 120px;
+  height: 160px;
+  background: radial-gradient(circle at 30% 30%, pink, #ff4d6d);
+  border-radius: 60% 60% 60% 60% / 70% 70% 30% 30%;
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+  cursor: pointer;
+}
+
+#balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  width: 2px;
+  height: 60px;
+  background: white;
+  transform: translateX(-50%);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+#message {
+  position: absolute;
+  color: #ffeaea;
+  font-size: 2.5rem;
+  font-family: 'Trebuchet MS', sans-serif;
+  text-align: center;
+  display: none;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px pink, 0 0 10px pink; }
+  to { text-shadow: 0 0 15px white, 0 0 30px pink; }
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: pink;
+  opacity: 0.8;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to { transform: translateY(100vh) rotate(360deg); }
+}
+
+  </style>
+</head>
+<body>
+  <div id="balloon"></div>
+  <div id="message">🎉 Happy Birthday 🎉</div><audio id="popSound" src="https://www.myinstants.com/media/sounds/pop-sound-effect.mp3"></audio>
+
+  <script>
+    const balloon = document.getElementById('balloon');
+    const message = document.getElementById('message');
+    const popSound = document.getElementById('popSound');
+
+    balloon.addEventListener('click', () => {
+      popSound.play();
+      balloon.style.display = 'none';
+      message.style.display = 'block';
+      launchConfetti();
+    });
+
+    function launchConfetti() {
+      for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.top = '-10px';
+        confetti.style.backgroundColor = ["pink", "white", "#fce1d2"][Math.floor(Math.random()*3)];
+        confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+  </script></body>
+</html>
